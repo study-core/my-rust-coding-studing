@@ -1,0 +1,18 @@
+[package]
+name = "first_game"
+version = "0.1.0"
+authors = ["GavinXu520 <meiyan532484710@163.com>"]
+edition = "2018"
+
+# 没有 profile.* 的话，默认用 profile.dev模式
+# opt-level 设置控制 Rust 会对代码进行何种程度的优化
+# 越高的优化级别需要更多的时间编译
+#[profile.dev]
+#opt-level = 0
+#
+#[profile.release]
+#opt-level = 3
+
+[dependencies]
+
+rand = "0.3.14"
