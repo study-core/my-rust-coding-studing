@@ -1096,13 +1096,37 @@ fn main() {
    block: 代码块，用花括号包起来的多个语句
    pat: 模式，普通模式匹配（非宏本身的模式）中的模式，例如 Some(t), (3, 'a', _)
    path: 路径，注意这里不是操作系统中的文件路径，而是用双冒号分隔的限定名(qualified name)，如 std::cmp::PartialOrd
-   tt: 单个语法树
+   tt: 单个语法树 (标记树 token tree)
    ty: 类型，语义层面的类型，如 i32, char
    item: 条目，
    meta: 元条目
    stmt: 单条语句，如 let a = 42;
 
 
+
+    TODO 宏 和 函数的 区别
+    函数不能接受任意多个参数，其次函数是不能操作语法单元的，
+    即把语法元素作为参数进行操作，从而生成代码，
+    例如 mod, crate 这些是 Rust 内置的关键词，
+    是不可能直接用函数去操作这些的，而宏就有这个能力。
+
+    相比函数，宏是用来生成代码的，在调用宏的地方，
+    编译器会先将宏进行展开，生成代码，然后再编译展开后的代码。
+
+    定义：
+
+    TODO： macro_rules! macro_name { macro_body }
+    即：
+    macro_rules! macro_name {
+        pattern => do_something
+    }
+    其中 pattern 和 do_something 都是用配对的括号括起来的，
+    括号可以是圆括号、方括号、花括号中的任意一种。
+    匹配可以有多个分支，每个分支以分号结束。
+
+    注意： 需要说明的是这里的括号和宏里面其它地方一样都可以是三种括号中的任意一种，
+    因为括号在这里仅仅是用来标记一个模式的开始和结束，大部分情况重复的模式是用逗号或分号分隔的，
+    所以你会经常看到 $(...),*, $(...);*, $(...),+, $(...);+ 这样的用来表示重复。
    */
 
 
@@ -1146,6 +1170,53 @@ fn main() {
     assert_eq!(out,
                "<html><head><title>Macros guide</title></head>\
  <body><h1>Macros are the best!</h1></body></html>");
+
+
+
+    println!("{}", find_min!(1u32));
+    println!("{}", find_min!(1u32 + 2 , 2u32));
+    println!("{}", find_min!(5u32, 2u32 * 3, 4u32));
+
+
+
+    print_result!(1u32 + 1);
+
+    // 回想一下，代码块也是表达式！
+    print_result!({
+        let x = 1u32;
+
+        x * x + 2 * x - 1
+    });
+
+    myFunc();
+    bar();
+
+
+    // 测试 `add_assign`、`mul_assign` 和 `sub_assign`
+    test!(add_assign, 1u32, 2u32, 3u32);
+    test!(mul_assign, 2u32, 3u32, 6u32);
+    test!(sub_assign, 3u32, 2u32, 1u32);
+
+
+    calculate! {
+        eval 1 + 2 // 看到了吧，`eval` 可并不是 Rust 的关键字！
+    }
+
+    calculate! {
+        eval (1 + 2) * (3 / 4)
+    }
+
+
+    calculate2! { // 妈妈快看，可变参数的 `calculate!`！
+        eval 1 + 2,
+        eval 3 + 4,
+        eval (2 * 3) + 1
+    }
+
+
+    let v = vec!{1, 2};
+    println!("{}", v[0])
+
 }
 
 /*
@@ -1153,16 +1224,22 @@ fn main() {
 一定要有：
 #[macro_export] 注解哦
 */
-/*#[macro_export]
-macro_rules! gavin {
+#[macro_export]
+macro_rules! gavin_vec {
+
+    // 【1】表示入参的表达式有0到多个
     ( $( $x:expr ),* ) => {
+
+        // 先调用 函数生成一个 Vec的变量
         let mut temp_vec = Vec::new();
+        // 表示 该语句有0到多个，具体个数 和【1】一致
         $(
             temp_vec.push($x);
         )*
+        // 返回 temp_vec 变量
         temp_vec
     };
-}*/
+}
 
 // 一个打印宏
 #[macro_export]
@@ -1235,5 +1312,150 @@ macro_rules! write_html {
         write_html!($w, $($inner)*);
         write!($w, "</{}>", stringify!($tag));
         write_html!($w, $($rest)*);
+    }};
+}
+
+/*
+递归查找最小值 宏
+*/
+#[macro_export]
+macro_rules! find_min {
+    // 如果只有一个元素，则直接返回
+    ($x:expr) => ($x);
+
+    // 如果有 多个元素则
+    ($x:expr, $($y:expr),+) => (
+    // 用第一个和后面的递归算出来最小的来算出最小的，并返回
+    std::cmp::min($x, find_min!($($y),+))
+    )
+}
+
+
+macro_rules! create_function {
+    // 此宏接受一个 `ident` 指示符表示的参数，并创建一个名为 `$func_name` 的函数。
+    // `ident` 指示符用于变量名或函数名
+    ($func_name:ident) => (
+        fn $func_name() {
+            // `stringify!` 宏把 `ident` 转换成字符串。
+            println!("You called {:?}()",
+                     stringify!($func_name))
+        }
+    )
+}
+
+// 借助上述宏来创建名为 `foo` 和 `bar` 的函数。
+create_function!(myFunc);
+create_function!(bar);
+
+
+#[macro_export]
+macro_rules! print_result {
+    // 此宏接受一个 `expr` 类型的表达式，并将它作为字符串，连同其结果一起
+    // 打印出来。
+    // `expr` 指示符表示表达式。
+    ($expression:expr) => (
+        // `stringify!` 把表达式*原样*转换成一个字符串。
+        println!("{:?} = {:?}",
+                 stringify!($expression),
+                 $expression)
+    )
+}
+
+
+
+
+
+
+
+
+
+
+//#[macro_export]
+macro_rules! assert_equal_len {
+    // `tt`（token tree，标记树）指示符表示运算符和标记。
+    ($a:ident, $b: ident, $func:ident, $op:tt) => (
+        assert!($a.len() == $b.len(),
+                "{:?}: dimension mismatch: {:?} {:?} {:?}",
+                stringify!($func),
+                ($a.len(),),
+                stringify!($op),
+                ($b.len(),));
+    )
+}
+
+use std::ops::{Add, Mul, Sub};
+macro_rules! op {
+    ($func:ident, $bound:ident, $op:tt, $method:ident) => (
+        fn $func<T: $bound<T, Output=T> + Copy>(xs: &mut Vec<T>, ys: &Vec<T>) {
+            assert_equal_len!(xs, ys, $func, $op);
+
+            for (x, y) in xs.iter_mut().zip(ys.iter()) {
+                *x = $bound::$method(*x, *y);
+                // *x = x.$method(*y);
+            }
+        }
+    )
+}
+
+// 实现 `add_assign`、`mul_assign` 和 `sub_assign` 等函数。
+op!(add_assign, Add, +=, add);
+op!(mul_assign, Mul, *=, mul);
+op!(sub_assign, Sub, -=, sub);
+
+mod test {
+    use std::iter;
+
+    // 定义宏
+    #[macro_export]
+    macro_rules! test {
+        ($func: ident, $x:expr, $y:expr, $z:expr) => {
+            #[test]
+            fn $func() {
+                for size in 0usize..10 {
+                    let mut x: Vec<_> = iter::repeat($x).take(size).collect();
+                    let y: Vec<_> = iter::repeat($y).take(size).collect();
+                    let z: Vec<_> = iter::repeat($z).take(size).collect();
+
+                    super::$func(&mut x, &y);
+
+                    assert_eq!(x, z);
+                }
+            }
+        }
+    }
+
+    // 测试 `add_assign`、`mul_assign` 和 `sub_assign`
+    test!(add_assign, 1u32, 2u32, 3u32);
+    test!(mul_assign, 2u32, 3u32, 6u32);
+    test!(sub_assign, 3u32, 2u32, 1u32);
+}
+
+
+// 小型计算机 宏
+#[macro_export]
+macro_rules! calculate {
+    (eval $e:expr) => {{
+        {
+            let val: usize = $e; // 强制类型为整型
+            println!("{} = {}", stringify!{$e}, val);
+        }
+    }};
+}
+
+
+#[macro_export]
+macro_rules! calculate2 {
+    // 单个 `eval` 的模式
+    (eval $e:expr) => {{
+        {
+            let val: usize = $e; // Force types to be integers
+            println!("{} = {}", stringify!{$e}, val);
+        }
+    }};
+
+    // 递归地拆解多重的 `eval`
+    (eval $e:expr, $(eval $es:expr),+) => {{
+        calculate2! { eval $e }
+        calculate2! { $(eval $es),+ }
     }};
 }
