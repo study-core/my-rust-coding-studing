@@ -10,6 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1a398493-d912-443c-a278-91fdf52322b6" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/lifetimeTest.rs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/traittest.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
     </list>
@@ -36,8 +38,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/module.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
+            <state relative-caret-position="418">
+              <caret line="19" selection-start-line="19" selection-end-line="19" />
             </state>
           </provider>
         </entry>
@@ -45,20 +47,48 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="395">
-              <caret line="1225" column="2" lean-forward="true" selection-start-line="1225" selection-start-column="2" selection-end-line="1225" selection-end-column="2" />
+            <state relative-caret-position="265">
+              <caret line="1980" column="5" lean-forward="true" selection-start-line="1980" selection-start-column="5" selection-end-line="1980" selection-end-column="5" />
               <folding>
-                <element signature="e#21826#21851#0" />
+                <element signature="e#38337#38338#0" expanded="true" />
+                <element signature="e#38368#38369#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/liballoc/macros.rs">
+        <entry file="file://$PROJECT_DIR$/src/lifetimeTest.rs">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="162">
-              <caret line="38" column="13" selection-start-line="38" selection-start-column="13" selection-end-line="38" selection-end-column="13" />
+            <state relative-caret-position="44">
+              <caret line="2" selection-start-line="2" selection-end-line="2" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/traittest.rs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="88">
+              <caret line="4" selection-start-line="4" selection-end-line="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libcore/option.rs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3410">
+              <caret line="155" column="4" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="4" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/lib.rs">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="220">
+              <caret line="12" column="2" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
             </state>
           </provider>
         </entry>
@@ -88,17 +118,9 @@
         <option value="$PROJECT_DIR$/src/lib.rs" />
         <option value="$PROJECT_DIR$/Cargo.toml" />
         <option value="$PROJECT_DIR$/src/hong.rs" />
+        <option value="$PROJECT_DIR$/src/traittest.rs" />
+        <option value="$PROJECT_DIR$/src/lifetimeTest.rs" />
         <option value="$PROJECT_DIR$/src/main.rs" />
-      </list>
-    </option>
-  </component>
-  <component name="ProjectConfigurationFiles">
-    <option name="files">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/first_game.iml" />
-        <option value="$PROJECT_DIR$/.idea/misc.xml" />
-        <option value="$PROJECT_DIR$/.idea/vcs.xml" />
-        <option value="$PROJECT_DIR$/.idea/modules.xml" />
       </list>
     </option>
   </component>
@@ -155,7 +177,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Cargo Command.Run first_game">
+  <component name="RunManager" selected="Cargo Command.Test main::tests">
     <configuration name="Run first_game" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
       <option name="command" value="run --package first_game --bin first_game" />
@@ -176,9 +198,9 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="Test filters_by_size" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test main::test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package first_game --bin first_game filters_by_size -- --exact" />
+      <option name="command" value="test --package first_game --bin first_game test" />
       <option name="allFeatures" value="false" />
       <option name="nocapture" value="false" />
       <option name="backtrace" value="SHORT" />
@@ -186,9 +208,9 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="Test main::test" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
+    <configuration name="Test main::tests" type="CargoCommandRunConfiguration" factoryName="Cargo Command" temporary="true">
       <option name="channel" value="DEFAULT" />
-      <option name="command" value="test --package first_game --bin first_game test" />
+      <option name="command" value="test --package first_game --bin first_game tests" />
       <option name="allFeatures" value="false" />
       <option name="nocapture" value="false" />
       <option name="backtrace" value="SHORT" />
@@ -208,11 +230,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Cargo Command.Test main::tests" />
         <item itemvalue="Cargo Command.Run first_game" />
         <item itemvalue="Cargo Command.Test main::test" />
         <item itemvalue="Cargo Command.Test using_other_iterator_trait_methods" />
         <item itemvalue="Cargo Command.Test calling_next_directly" />
-        <item itemvalue="Cargo Command.Test filters_by_size" />
       </list>
     </recent_temporary>
   </component>
@@ -235,17 +257,13 @@
       <workItem from="1557809888247" duration="2528000" />
       <workItem from="1557813827152" duration="1921000" />
       <workItem from="1557833819496" duration="1379000" />
-      <workItem from="1557982273624" duration="7997000" />
+      <workItem from="1557982273624" duration="19906000" />
+      <workItem from="1558575405944" duration="2853000" />
+      <workItem from="1558604944839" duration="12984000" />
     </task>
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Test_call_with_different_values - 2019.04.21 at 01h 33m 37s.xml">
-      <configuration name="Test call_with_different_values" configurationId="CargoCommandRunConfiguration" />
-    </history-entry>
-    <history-entry file="Test_filters_by_size - 2019.04.22 at 10h 18m 36s.xml">
-      <configuration name="Test filters_by_size" configurationId="CargoCommandRunConfiguration" />
-    </history-entry>
     <history-entry file="Test_filters_by_size - 2019.04.22 at 10h 19m 47s.xml">
       <configuration name="Test filters_by_size" configurationId="CargoCommandRunConfiguration" />
     </history-entry>
@@ -270,20 +288,26 @@
     <history-entry file="Test_main__test - 2019.05.16 at 23h 58m 02s.xml">
       <configuration name="Test main::test" configurationId="CargoCommandRunConfiguration" />
     </history-entry>
+    <history-entry file="Test_main__tests - 2019.05.25 at 00h 09m 14s.xml">
+      <configuration name="Test main::tests" configurationId="CargoCommandRunConfiguration" />
+    </history-entry>
+    <history-entry file="Test_main__tests - 2019.05.25 at 00h 09m 20s.xml">
+      <configuration name="Test main::tests" configurationId="CargoCommandRunConfiguration" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="58729000" />
+    <option name="totallyTimeSpent" value="86475000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="65" y="-4" width="1855" height="1084" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17689331" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.18131565" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32925585" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.27522936" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32619774" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39959225" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -353,28 +377,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/lib.rs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-967">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-          <folding>
-            <element signature="e#75#76#0" expanded="true" />
-            <element signature="e#110#111#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libstd/sync/mutex.rs">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-4428">
           <caret line="217" column="51" selection-start-line="217" selection-start-column="26" selection-end-line="217" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libstd/macros.rs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="149" column="13" selection-start-line="149" selection-start-column="13" selection-end-line="149" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -388,27 +394,6 @@
             <element signature="e#65455#65456#0" expanded="true" />
             <element signature="e#65482#65483#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/hong.rs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="44">
-          <caret line="2" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/typeTest.rs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="13" selection-start-line="13" selection-end-line="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/module.rs">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" column="34" selection-start-line="17" selection-start-column="34" selection-end-line="17" selection-end-column="34" />
         </state>
       </provider>
     </entry>
@@ -433,12 +418,90 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/hong.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libcore/slice/mod.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="228">
+          <caret line="273" column="11" selection-start-line="273" selection-start-column="11" selection-end-line="273" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libstd/collections/hash/map.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="237">
+          <caret line="1272" column="43" selection-start-line="1272" selection-start-column="43" selection-end-line="1272" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/typeTest.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="13" selection-start-line="13" selection-end-line="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libstd/macros.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3278">
+          <caret line="149" column="13" selection-start-line="149" selection-start-column="13" selection-end-line="149" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libcore/option.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3410">
+          <caret line="155" column="4" selection-start-line="155" selection-start-column="4" selection-end-line="155" selection-end-column="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lib.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="220">
+          <caret line="12" column="2" selection-start-line="12" selection-start-column="2" selection-end-line="12" selection-end-column="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/module.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="418">
+          <caret line="19" selection-start-line="19" selection-end-line="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/traittest.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="88">
+          <caret line="4" selection-start-line="4" selection-end-line="4" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/.rustup/toolchains/stable-x86_64-unknown-linux-gnu/lib/rustlib/src/rust/src/libcore/cmp.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="211">
+          <caret line="698" column="10" selection-start-line="698" selection-start-column="10" selection-end-line="698" selection-end-column="10" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/lifetimeTest.rs">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="44">
+          <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main.rs">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="1225" column="2" lean-forward="true" selection-start-line="1225" selection-start-column="2" selection-end-line="1225" selection-end-column="2" />
+        <state relative-caret-position="265">
+          <caret line="1980" column="5" lean-forward="true" selection-start-line="1980" selection-start-column="5" selection-end-line="1980" selection-end-column="5" />
           <folding>
-            <element signature="e#21826#21851#0" />
+            <element signature="e#38337#38338#0" expanded="true" />
+            <element signature="e#38368#38369#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -1081,8 +1081,9 @@ fn main() {
     call_getName()
 }*/
 
-
 /*
+
+*//*
    宏转换（将具有不完整参数的调用转换为规范形式）
 
    宏中的匹配规则
@@ -1091,18 +1092,24 @@ fn main() {
 
    几种指示符：
 
-   ident: 标识符，用来表示函数或变量名
-   expr: 表达式
-   block: 代码块，用花括号包起来的多个语句
-   pat: 模式，普通模式匹配（非宏本身的模式）中的模式，例如 Some(t), (3, 'a', _)
+   ident: 标识符，用来表示函数或变量名; 例如：x; foo.
+   expr: 表达式;例如：2 + 2; if true then { 1 } else { 2 }; f(42).
+   block: 代码块，用花括号包起来的多个语句;例如： { log(error, "hi"); return 12; }.
+   pat: 模式，普通模式匹配（非宏本身的模式）中的模式，例如 Some(t), (3, 'a', _), _.
    path: 路径，注意这里不是操作系统中的文件路径，而是用双冒号分隔的限定名(qualified name)，如 std::cmp::PartialOrd
    tt: 单个语法树 (标记树 token tree)
    ty: 类型，语义层面的类型，如 i32, char
-   item: 条目，
-   meta: 元条目
+   item: 一个项目。例如： fn foo() { }; struct Bar;.
+   meta: 一个 "元项目", 在属性中建立的. 例如： cfg(target_os = "windows").
    stmt: 单条语句，如 let a = 42;
 
 
+还有其他关于元变量后下一个标记的附加规则：
+
+变量 expr 后必须加下面中的一个： => , ;
+变量 ty 和 path 后必须加下面中的一个： => , : = > as
+变量 pat 后必须加下面中的一个：=> , =
+其它变量后可能要加其它符号。
 
     TODO 宏 和 函数的 区别
     函数不能接受任意多个参数，其次函数是不能操作语法单元的，
@@ -1127,7 +1134,7 @@ fn main() {
     注意： 需要说明的是这里的括号和宏里面其它地方一样都可以是三种括号中的任意一种，
     因为括号在这里仅仅是用来标记一个模式的开始和结束，大部分情况重复的模式是用逗号或分号分隔的，
     所以你会经常看到 $(...),*, $(...);*, $(...),+, $(...);+ 这样的用来表示重复。
-   */
+   *//*
 
 
 // 宏模式所匹配的是 Rust 代码结构而不是值
@@ -1219,11 +1226,11 @@ fn main() {
 
 }
 
-/*
+*//*
 定义一个宏 (导出的宏，可以被任意地方引用)
 一定要有：
 #[macro_export] 注解哦
-*/
+*//*
 #[macro_export]
 macro_rules! gavin_vec {
 
@@ -1315,9 +1322,9 @@ macro_rules! write_html {
     }};
 }
 
-/*
+*//*
 递归查找最小值 宏
-*/
+*//*
 #[macro_export]
 macro_rules! find_min {
     // 如果只有一个元素，则直接返回
@@ -1458,4 +1465,529 @@ macro_rules! calculate2 {
         calculate2! { eval $e }
         calculate2! { $(eval $es),+ }
     }};
+}
+
+
+pub fn increment(x: u32) -> u32 {
+    x + 1
+}
+
+#[macro_export]
+macro_rules! inc_a {
+    // 这里表明，该宏只能在当前 crate (库内)使用
+    ($x:expr) => ( ::increment($x) )
+}
+
+#[macro_export]
+macro_rules! inc_b {
+    // 这里表明，该宏只能在外部 crate (库外)使用
+    ($x:expr) => ( ::mylib::increment($x) )
+}
+
+
+#[macro_export]
+macro_rules! inc {
+    // TODO 这个表示  库内外 都可任意使用的 宏
+    // 这个函数名字会展开为::increment或::mylib::increment。
+    // 为了保证这个系统简单和正确，#[macro_use] extern crate ...【应只出现在你包装箱的根中】，而不是在mod中
+    ($x:expr) => ( $crate::increment($x) )
+}*/
+
+
+
+/*
+mod sound {
+    pub mod instrument {
+        pub fn clarinet() {
+            // 函数体
+            println!("{:#?}", 12)
+        }
+    }
+}
+
+mod performance_group {
+
+    *//*
+    pub use 的使用
+    在这里通过 pub use 将 sound::instrument 引入 performance_group
+    并将 instrument 作为 performance_group 的部分引出去，给别人能用
+    *//*
+    pub use crate::sound::instrument;
+
+    pub fn clarinet_trio() {
+        instrument::clarinet();
+        instrument::clarinet();
+        instrument::clarinet();
+    }
+}
+
+fn main() {
+    performance_group::clarinet_trio();
+
+    // 因为在 performance_group 使用了 pub use 所以这里可以把原先定义在 sound 中的 instrument
+    // 当做 performance_group 中的 instrument 重新引出
+    performance_group::instrument::clarinet();
+}*/
+
+
+
+
+//fn main() {
+//    /*let v = vec![1, 2, 3, 4, 5];
+//
+//    let third: &i32 = &v[2];
+//    println!("The third element is {}", third);
+//
+//    let val = v.get(2);
+//
+//    match val {
+//        Some(third) => println!("The third element is {}", third),
+//        None => println!("There is no third element."),
+//    }
+//
+//    println!("{}", third);
+//    println!("{}", third);
+//    println!("{}", third)*/
+//
+//
+//
+//   /*
+//    // 下面这个是错的～～ v.push(6)
+//    let mut v = vec![1, 2, 3, 4, 5];
+//
+//    let first = &v[0];
+//
+//    v.push(6);
+//
+//    println!("The first element is: {}", first);*/
+//
+//
+//
+//    let s1 = "xxx";
+//
+//    let s2 = "aaa";
+//
+//    let s3 = s1.to_owned() + s2;
+//
+//    println!("s1:{}, s2:{}, s3:{}", s1, s2, s3);
+//
+//    // String 是一个 Vec<u8> 的封装
+//    let len = String::from("Hola").len(); // 4 因为 Hola 为 这里每一个字母的 UTF-8 编码都占用一个字节
+//    println!("{}", len);
+//
+//    let len = String::from("Здравствуйте").len(); // 24 这是使用 UTF-8 编码 “Здравствуйте” 所需要的字节数，这是因为每个 Unicode 标量值需要两个字节存储
+//    println!("{}", len);
+//
+//
+//    // 使用 索引操作 字符串 是一个坏点子
+//    let hello = "Здравствуйте";
+//
+////    let s = &hello[0..3]; // 出错
+//
+//    let s = &hello[0..4]; // 输出 Зд
+//    println!("{}", s);
+//
+//
+//    for c in "नमस्ते".chars() { // 注意这里返回 6个 char ： न म ् स् ् ते
+//        println!("{}", c);
+//    }
+//
+//
+//    for b in "नमस्ते".bytes() { // 返回原始字节
+//        println!("{}", b);
+//    }
+//}
+
+
+
+//fn main() {
+//
+//    use std::collections::HashMap;
+//
+//    /*let mut scores = HashMap::new();
+//
+//    scores.insert(String::from("Blue"), 10);
+//    scores.insert(String::from("Yellow"), 50);
+//
+//    let team_name = String::from("Blue");
+//    let score = scores.get(&team_name);
+//    let myscore = match score {
+//        Some(val) => println!("{}", val),
+//        None =>  println!("It is  empty～～")
+//    }*/
+//
+//
+//
+//    /*let mut scores = HashMap::new();
+//
+//    scores.insert(String::from("Blue"), 10);
+//    scores.insert(String::from("Yellow"), 50);
+//
+////    for (key, value) in &scores {
+//    for m in &scores {
+//        println!("{:?}", m); // ("Yellow", 50)  ("Blue", 10)
+//    }*/
+//
+//
+//   /* // 没有就插入
+//    let mut scores = HashMap::new();
+//    scores.insert(String::from("Blue"), 10);
+//
+//    er = scores.entry(String::from("Yellow")).or_insert(50);
+//    scores.entry(String::from("Blue")).or_insert(50); // 检查某个特定的键是否有值，如果没有就插入一个值
+//
+//    println!("{:?}", scores);
+//
+//    match er {
+//
+//    }*/
+//
+//
+//    /*// 更新旧值
+//    let text = "hello world wonderful world";
+//
+//    let mut map = HashMap::new();
+//
+//    for word in text.split_whitespace() {
+//        let count = map.entry(word).or_insert(0);
+//        *count += 1;
+//    }
+//
+//    println!("{:?}", map); // {"hello": 1, "wonderful": 1, "world": 2}*/
+//}
+
+
+
+
+
+
+//use std::panic;
+//fn main() {
+//
+//
+//   /* // 读文件
+//    use std::io;
+//    use std::io::Read;
+//    use std::fs::File;
+//
+//    fn read_username_from_file() -> Result<String, io::Error> {
+//        let f = File::open("hello.txt");
+//
+//        // 注意了 match 是有返回值的
+//        let mut f = match f {
+//            Ok(file) => file,
+//            Err(e) => return Err(e),
+//        };
+//
+//        let mut s = String::new();
+//
+//        match f.read_to_string(&mut s) {
+//            Ok(_) => Ok(s),
+//            Err(e) =>{
+//                println!("err:{}", e.to_string());
+//                Err(e)
+//            },
+//        }
+//    }*/
+//
+//   /* // 用 ? 号 代替 Result  和上面的 match 是一样的
+//    use std::io;
+//    use std::io::Read;
+//    use std::fs::File;
+//
+//    fn read_username_from_file() -> Result<String, io::Error> {
+//        // 这里的 ? 是一个泛指， 如果是 OK 则返回 ok的值给 f变量，程序就往下走, 等价于 TODO:  let mut f = file
+//        // 如果是 Err 则直接结束 read_username_from_file() 函数的调用, 等价于 TODO:  return Err(e)
+//        // 并返回Err 给函数的调用者
+//        let mut f = File::open("hello.txt")?;
+//        let mut s = String::new();
+//        f.read_to_string(&mut s)?;
+//        Ok(s)
+//    }*/
+//
+//
+//   /* // 链式操作
+//    use std::io;
+//    use std::io::Read;
+//    use std::fs::File;
+//
+//    fn read_username_from_file() -> Result<String, io::Error> {
+//        let mut s = String::new();
+//
+//        // 链式操作
+//        File::open("hello.txt")?.read_to_string(&mut s)?;
+//        println!("{}", s);
+//        Ok(s)
+//    }*/
+//
+//
+//
+//    /*fn catch() {
+//        let nums: [i32; 5] = [1, 2, 3, 4, 5];
+//        let numsPtr = &nums;
+//        panic::catch_unwind(|| {
+//            println!("{}", numsPtr[9]);
+//        });
+//    }
+//
+//    catch()*/
+//}
+
+
+//mod traittest;
+//use traittest::Summary; // 注意不能直接写 use 某个mod哦， use traittest;
+//
+//
+//pub struct NewsArticle {
+//    pub headline: String,
+//    pub location: String,
+//    pub author: String,
+//    pub content: String,
+//}
+//
+//impl Summary for NewsArticle {
+//    fn summarize(&self) -> String {
+//        format!("{}, by {} ({})", self.headline, self.author, self.location)
+//    }
+//}
+//
+//pub struct Tweet {
+//    pub username: String,
+//    pub content: String,
+//    pub reply: bool,
+//    pub retweet: bool,
+//}
+//
+//impl Summary for Tweet {
+//    fn summarize(&self) -> String {
+//        format!("{}: {}", self.username, self.content)
+//    }
+//
+//
+//}
+//
+//
+//fn main() {
+//    let tweet = Tweet {
+//        username: String::from("Gavin"),
+//        content: String::from("of course, as you probably already know, people"),
+//        reply: false,
+//        retweet: false,
+//    };
+//
+//    println!("1 new tweet: {}", tweet.summarize());
+//
+////    notify(tweet);
+//    notify2(tweet);
+//
+//
+//    let p = Pair::new(48_i8, 47_i8);
+//
+//
+//}
+//
+//// trait 入参
+//pub fn notify(item: impl Summary) {
+//    println!("Breaking news! {}", item.summarize());
+//}
+//
+//// 或者 使用 trait bonds 来表示: trait 入参
+//pub fn notify2<T: Summary>(item: T) {
+//    println!("notify2 news! {}", item.summarize());
+//}
+///*
+//有些签名中使用 trait bonds 太多了，这时候需要用到 where
+//
+//fn some_function<T: Display + Clone, U: Clone + Debug>(t: T, u: U) -> i32 {}
+//
+//等价于
+//
+//fn some_function<T, U>(t: T, u: U) -> i32
+//    where T: Display + Clone,
+//          U: Clone + Debug
+//{}
+//
+//TODO 贼返回值中使用trait 类型， 只能返回单一的 trait实现类型
+//
+//TODO 下面这个就有问题
+//
+//fn returns_summarizable(switch: bool) -> impl Summary {
+//    if switch {
+//        NewsArticle {
+//            headline: String::from("Penguins win the Stanley Cup Championship!"),
+//            location: String::from("Pittsburgh, PA, USA"),
+//            author: String::from("Iceburgh"),
+//            content: String::from("The Pittsburgh Penguins once again are the best
+//            hockey team in the NHL."),
+//        }
+//    } else {
+//        Tweet {
+//            username: String::from("horse_ebooks"),
+//            content: String::from("of course, as you probably already know, people"),
+//            reply: false,
+//            retweet: false,
+//        }
+//    }
+//}
+//
+//TODO 而这样是 OK 的
+//
+//fn returns_summarizable() -> impl Summary {
+//    Tweet {
+//        username: String::from("horse_ebooks"),
+//        content: String::from("of course, as you probably already know, people"),
+//        reply: false,
+//        retweet: false,
+//    }
+//}
+//
+//*/
+
+
+
+/*
+// TODO 使用 trait bound 有条件地实现方法
+use std::fmt::Display;
+
+struct Pair<T> {
+    x: T,
+    y: T,
+}
+
+// TODO  new 【函数】的实现
+impl<T> Pair<T> {
+    fn new(x: T, y: T) -> Self {
+        Self {
+            x,
+            y,
+        }
+    }
+}
+
+// TODO cmp_display 【方法】的实现
+impl<T: Display + PartialOrd> Pair<T> {
+    fn cmp_display(&self) {
+        if self.x >= self.y {
+            println!("The largest member is x = {}", self.x);
+        } else {
+            println!("The largest member is y = {}", self.y);
+        }
+    }
+}*/
+
+
+// 生命周期
+//fn main() {
+//
+////    /*
+////    变量 x 并没有 “存在的足够久”.
+////    其原因是 x 在到达第 7 行内部作用域结束时就离开了作用域.
+////    不过 r 在外部作用域仍是有效的;
+////    作用域越大我们就说它 “存在的越久”.
+////    如果 Rust 允许这段代码工作,r 将会引用在 x 离开作用域时被释放的内存,
+////    这时尝试对 r 做任何操作都不能正常工作.
+////
+////    */
+////    {
+////        let r;                              // ---------+-- 'a
+////                                                 //          |
+////        {                                        //          |
+////            let x = 5;                       // -+-- 'b  |
+////            r = &x;  // 借来的 x 价值不够长         //  |       |
+////        }                                        // -+       |
+////                                                 //          |
+////        println!("r: {}", r);                    //          |
+////    }                                            // ---------+
+////
+////
+//
+//
+//    fn longest(x: &str, y: &str) -> &str {
+//        if x.len() > y.len() {
+//            x
+//        } else {
+//            y
+//        }
+//    }
+//    /*
+//    因为 Rust 并不知道将要返回的引用是指向 x 或 y.事实上我们也不知道,
+//    因为函数体中 if 块返回一个 x 的引用而 else 块返回一个 y 的引用！
+//    编译器 分不清 x 和 y 的生命周期是否一致.
+//    TODO 因为它不知道 x 和 y 的生命周期是如何与返回值的生命周期相关联的.
+//
+//    TODO 解决方案：
+//    增加泛型生命周期参数来定义引用间的关系以便借用检查器可以进行分析.
+//
+//    fn longest<'a>(x: &'a str, y: &'a str) -> &'a str {
+//        if x.len() > y.len() {
+//            x
+//        } else {
+//            y
+//        }
+//    }
+//
+//    */
+//    let s = longest("s", "4");
+//    println!("{}", s)
+//
+//    /*
+//    &i32            // 引用
+//    &'a i32         // 带有显式生命周期的引用
+//    &'a mut i32     // 带有显式生命周期的可变引用
+//    */
+//
+//
+//    /*
+//    TODO 省略  生命周期参数  原则
+//
+//    todo 第一条规则适用于输入生命周期，后两条规则适用于输出生命周期。
+//    如果编译器检查完这三条规则后仍然存在没有计算出生命周期的引用，编译器将会停止并生成错误。
+//
+//    这些规则适用于 fn 定义，以及 impl 块。
+//
+//    todo 第一条规则是每一个是引用的参数都有它自己的生命周期参数。换句话说就是，有一个引用参数的函数有一个生命周期参数：fn foo<'a>(x: &'a i32)，有两个引用参数的函数有两个不同的生命周期参数，fn foo<'a, 'b>(x: &'a i32, y: &'b i32)，依此类推。
+//
+//    todo 第二条规则是如果只有一个输入生命周期参数，那么它被赋予所有输出生命周期参数：fn foo<'a>(x: &'a i32) -> &'a i32。
+//
+//    todo 第三条规则是如果方法有多个输入生命周期参数，不过其中之一因为方法的缘故为 &self 或 &mut self，那么 self 的生命周期被赋给所有输出生命周期参数。这使得方法更容易读写，因为只需更少的符号。
+//
+//    */
+//
+//
+//
+//    // 静态生命周期 'static
+//    let s: & 'static str = "I have a static lifetime.";
+//
+//
+//}
+
+
+
+
+fn main() {}
+pub struct Guess {
+    value: i32,
+}
+
+impl Guess {
+    pub fn new(value: i32) -> Guess {
+        if value < 1 || value > 100 {
+            panic!("Guess value must be between 1 and 100, got {}.", value);
+        }
+
+        Guess {
+            value
+        }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[should_panic]
+    fn greater_than_100() {
+        Guess::new(200);
+    }
 }
