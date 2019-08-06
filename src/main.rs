@@ -1530,8 +1530,6 @@ fn main() {
 }*/
 
 
-
-
 //fn main() {
 //    /*let v = vec![1, 2, 3, 4, 5];
 //
@@ -1599,7 +1597,6 @@ fn main() {
 //}
 
 
-
 //fn main() {
 //
 //    use std::collections::HashMap;
@@ -1655,10 +1652,6 @@ fn main() {
 //
 //    println!("{:?}", map); // {"hello": 1, "wonderful": 1, "world": 2}*/
 //}
-
-
-
-
 
 
 //use std::panic;
@@ -1732,6 +1725,7 @@ fn main() {
 //
 //    catch()*/
 //}
+
 
 
 //mod traittest;
@@ -1962,32 +1956,1586 @@ impl<T: Display + PartialOrd> Pair<T> {
 //}
 
 
+//
+//pub struct Guess {
+//    value: i32,
+//}
+//
+//impl Guess {
+//    pub fn new(value: i32) -> Guess {
+//        if value < 1 || value > 100 {
+//            panic!("Guess value must be between 1 and 100, got {}.", value);
+//        }
+//
+//        Guess {
+//            value
+//        }
+//    }
+//}
+//
+//#[cfg(test)]
+//mod tests {
+//    use super::*;
+//
+//    #[test]
+//    #[should_panic]
+//    fn greater_than_100() {
+//        Guess::new(200);
+//    }
+//}
 
 
-fn main() {}
-pub struct Guess {
-    value: i32,
+//use std::thread;
+//use std::time::Duration;
+//
+//fn generate_workout(intensity: u32, random_number: u32) {
+//
+//    /*
+//    todo 闭包
+//
+//    let expensive_closure = |num: u32| -> u32 {
+//        println!("calculating slowly...");
+//        thread::sleep(Duration::from_secs(2));
+//        num
+//    };
+//
+//    或者
+//
+//    fn  add_one_v1   (x: u32) -> u32 { x + 1 }
+//    let add_one_v2 = |x: u32| -> u32 { x + 1 };
+//    let add_one_v3 = |x|             { x + 1 };
+//    let add_one_v4 = |x|               x + 1  ;
+//
+//    TODO 闭包中不显示 类型的话，使用类型推断，则在使用了第一次后，该闭包的类型就确定了
+//    */
+//    // TODO 闭包不【不要求】像 fn 函数那样在参数和返回值上注明类型.
+//    // TODO 函数中需要类型注解是因为他们是暴露给用户的显式接口的一部分.
+//    // 闭包通常很短并只与对应相对任意的场景较小的上下文中
+//    let expensive_closure = |num| {
+//        println!("calculating slowly...");
+//        thread::sleep(Duration::from_secs(2));
+//        num
+//    };
+//
+//    if intensity < 25 {
+//        println!(
+//            "Today, do {} pushups!",
+//            expensive_closure(intensity)
+//        );
+//        println!(
+//            "Next, do {} situps!",
+//            expensive_closure(intensity)
+//        );
+//    } else {
+//        if random_number == 3 {
+//            println!("Take a break today! Remember to stay hydrated!");
+//        } else {
+//            println!(
+//                "Today, run for {} minutes!",
+//                expensive_closure(intensity)
+//            );
+//        }
+//    }
+//}
+//
+//
+//fn generate_workout2(intensity: u32, random_number: u32) {
+//    let mut expensive_result = Cacher::new(|num| {
+//        println!("calculating slowly...");
+//        thread::sleep(Duration::from_secs(2));
+//        num
+//    });
+//
+//    if intensity < 25 {
+//        println!(
+//            "Today, do {} pushups!",
+//            expensive_result.value(intensity)
+//        );
+//        println!(
+//            "Next, do {} situps!",
+//            expensive_result.value(intensity)
+//        );
+//    } else {
+//        if random_number == 3 {
+//            println!("Take a break today! Remember to stay hydrated!");
+//        } else {
+//            println!(
+//                "Today, run for {} minutes!",
+//                expensive_result.value(intensity)
+//            );
+//        }
+//    }
+//}
+//
+//
+//// Fn 系列 trait 由标准库提供。
+//// 所有的闭包都实现了 trait Fn、FnMut 或 FnOnce 中的一个
+//struct Cacher<T>
+//    where T: Fn(u32) -> u32
+//{
+//    calculation: T,  // 这是一个闭包 泛型 T
+//    value: Option<u32>,
+//}
+//
+//impl<T> Cacher<T>
+//    where T: Fn(u32) -> u32
+//{
+//    // 入参一个 闭包
+//    fn new(calculation: T) -> Cacher<T> {
+//        Cacher {
+//            calculation,
+//            value: None,
+//        }
+//    }
+//
+//    fn value(&mut self, arg: u32) -> u32 {
+//        match self.value {
+//            Some(v) => v,
+//            None => {
+//                let v = (self.calculation)(arg);
+//                self.value = Some(v);
+//                v
+//            },
+//        }
+//    }
+//}
+//
+//#[test]
+//fn call_with_different_values() {
+//    let mut c = Cacher::new(|a| a);
+//
+//    let v1 = c.value(1);
+//    let v2 = c.value(2);
+//
+//    assert_eq!(v2, 2);
+//}
+//
+////fn main() {
+////    let x = 4;
+////
+////    let equal_to_x = |z| z == x;
+////
+////    let y = 4;
+////
+////    assert!(equal_to_x(y));
+////}
+//
+//fn main() {
+//    let x = vec![1, 2, 3];
+//
+//    let equal_to_x = move |z| z == x; // 将 x 所有权移入闭包了
+//
+//    println!("can't use x here: {:?}", x); // 这里将获取到一个 悬垂引用
+//
+//    let y = vec![1, 2, 3];
+//
+//    assert!(equal_to_x(y));
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+TODO 智能指针
+*/
+
+
+// TODO  Box
+// box 允许你将一个值放在堆上而不是栈上。留在栈上的则是指向堆数据的指针
+/*
+Box 多用于下面的场景
+当有一个在编译时未知大小的类型，而又想要在需要确切大小的上下文中使用这个类型值的时候
+当有大量数据并希望在确保数据不被拷贝的情况下转移所有权的时候
+当希望拥有一个值并只关心它的类型是否实现了特定 trait 而不是其具体类型的时候
+
+TODO Box默认实现了 Deref trait 可以被解指针操作
+*/
+
+//enum List {
+//    Cons(i32, List),
+//    Nil,
+//}
+
+
+/*
+enum List {
+    Cons(i32, Box<List>),
+    Nil,
 }
+use List::{Cons, Nil};
 
-impl Guess {
-    pub fn new(value: i32) -> Guess {
-        if value < 1 || value > 100 {
-            panic!("Guess value must be between 1 and 100, got {}.", value);
-        }
+//fn main() {
+//
+//    // 这样纸会出现 无限引用导致没存溢出
+////    let list = Cons(1, Cons(2, Cons(3, Nil)));
+//
+//    // TODO 下面这个才是真正的做法
+////    let list = Cons(1,
+////                    Box::new(Cons(2,
+////                                  Box::new(Cons(3,
+////                                                Box::new(Nil))))));
+//
+//
+////    let x = 5;
+////    let y = &x;
+////
+////    assert_eq!(5, x);
+////    assert_eq!(5, *y);
+//
+//
+////
+////    let x = 5;
+////    let y = Box::new(x);
+////
+////    assert_eq!(5, x);
+////    assert_eq!(5, *y);
+//
+//
+//
+////    let x = 5;
+////    let y = MyBox::new(x);
+////
+////    assert_eq!(5, x);
+////    assert_eq!(5, *y); // 对于实现了 Deref trait 的智能指针 (包含自定义的) 使用 todo *y == *(y.deref())
+//
+//
+//}
 
-        Guess {
-            value
-        }
+
+*//*
+*//**//*
+TODO 定义自己的智能指针
+【注意】 // 自定义这个没实现 Deref trait 的，不可以被解指针
+
+*//**//*
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
     }
 }
 
-#[cfg(test)]
-mod tests {
-    use super::*;
 
-    #[test]
-    #[should_panic]
-    fn greater_than_100() {
-        Guess::new(200);
+use std::ops::Deref;
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+
+    fn deref(&self) -> &T {
+        &self.0
+    }
+}*//*
+
+
+
+
+
+use std::ops::Deref;
+
+struct MyBox<T>(T);
+
+impl<T> MyBox<T> {
+    fn new(x: T) -> MyBox<T> {
+        MyBox(x)
     }
 }
+
+impl<T> Deref for MyBox<T> {
+    type Target = T;
+    fn deref(&self) -> &T {
+        &self.0
+    }
+}
+
+fn hello(name: &str) {
+    println!("Hello, {}!", name);
+    }
+
+fn main() {
+    let m = MyBox::new(String::from("Rust"));
+    hello(&m);
+}*/
+
+
+//struct CustomSmartPointer {
+//    data: String,
+//}
+//
+//impl Drop for CustomSmartPointer {
+//    fn drop(&mut self) {
+//        println!("Dropping CustomSmartPointer!");
+//    }
+//}
+//
+//fn main() {
+//    let c = CustomSmartPointer { data: String::from("some data") };
+//    println!("CustomSmartPointer created.");
+//
+//    // 提前把 c 清理掉 注意这里不用 c.drop() 哦
+//    drop(c);
+//    println!("CustomSmartPointer dropped before the end of main.");
+//}
+
+
+//enum List {
+//    Cons(i32, Box<List>),
+//    Nil,
+//}
+//
+//use List::{Cons, Nil};
+//fn main() {
+//    let a = Cons(5,
+//                 Box::new(Cons(10,
+//                               Box::new(Nil))));
+//    let b = Cons(3, Box::new(a));
+//    let c = Cons(4, Box::new(a)); // 这个会报错，因为所有权已经被转移
+//}
+
+
+//enum List {
+//    Cons(i32, Rc<List>),
+//    Nil,
+//}
+//
+//use List::{Cons, Nil};
+//use std::rc::Rc;
+//
+//// 这个是 ok 的 Rc::clone 只是 clone 引用，而不是 clone 数据
+//fn main() {
+//    let a = Rc::new(Cons(5, Rc::new(Cons(10, Rc::new(Nil)))));
+//    let b = Cons(3, Rc::clone(&a));
+//    let c = Cons(4, Rc::clone(&a));
+//}
+
+
+// 用 RefCell<T> 来修改不可变的 数据
+/*
+TODO 对于引用和 Box<T>，借用规则的不可变性作用于编译时。
+TODO 对于 RefCell<T>，这些不可变性作用于 运行时
+
+TODO  Rc<T>，RefCell<T> 只能用于单线程场景
+
+Box Rc  RefCell 的选择场景
+
+
+Rc<T> 允许相同数据有多个所有者；TODO Box<T> 和 RefCell<T> 有单一所有者。
+Box<T> 允许在编译时执行【不可变】或【可变】借用检查； TODO Rc<T>仅允许在编译时执行 【不可变】借用检查；
+RefCell<T> 允许在运行时执行【不可变】或【可变】借用检查
+
+*/
+
+//// 下面的写法是会报错的
+//fn main() {
+//    let x = 5;
+//    let y = &mut x; // 不允许将 不可变的 变成可变的
+//}
+
+
+//// 结合 Rc<T> 和 RefCell<T> 来拥有多个可变数据所有者
+//// TODO RefCell<T> 的一个常见用法是与 Rc<T> 结合
+//#[derive(Debug)]
+//enum List {
+//    Cons(Rc<RefCell<i32>>, Rc<List>),
+//    Nil,
+//}
+//
+//use List::{Cons, Nil};
+//use std::rc::Rc;
+//use std::cell::RefCell;
+//
+//fn main() {
+//    let value = Rc::new(RefCell::new(5));
+//
+//    let a = Rc::new(Cons(Rc::clone(&value), Rc::new(Nil)));
+//
+//    let b = Cons(Rc::new(RefCell::new(6)), Rc::clone(&a));
+//    let c = Cons(Rc::new(RefCell::new(10)), Rc::clone(&a));
+//
+//    *value.borrow_mut() += 10;
+//
+//    println!("a after = {:?}", a);
+//    println!("b after = {:?}", b);
+//    println!("c after = {:?}", c);
+//}
+
+
+//
+//
+//// TODO  人为制造 内存溢出  或者 避免引用循环：将 Rc<T> 变为 Weak<T>  （没试过这个Weak）
+//fn main() {
+//    let a = Rc::new(Cons(5, RefCell::new(Rc::new(Nil))));
+//
+//    println!("a initial rc count = {}", Rc::strong_count(&a));
+//    println!("a next item = {:?}", a.tail());
+//
+//    let b = Rc::new(Cons(10, RefCell::new(Rc::clone(&a))));
+//
+//    println!("a rc count after b creation = {}", Rc::strong_count(&a));
+//    println!("b initial rc count = {}", Rc::strong_count(&b));
+//    println!("b next item = {:?}", b.tail());
+//
+//    if let Some(link) = a.tail() {
+//        *link.borrow_mut() = Rc::clone(&b);
+//    }
+//
+//    println!("b rc count after changing a = {}", Rc::strong_count(&b));
+//    println!("a rc count after changing a = {}", Rc::strong_count(&a));
+//
+//    // 取消如下行的注释来观察引用循环；
+//    // 这会导致栈溢出
+//    // println!("a next item = {:?}", a.tail());
+//
+//}
+//use std::rc::Rc;
+//use std::cell::RefCell;
+//use List::{Cons, Nil};
+//
+//#[derive(Debug)]
+//enum List {
+//    Cons(i32, RefCell<Rc<List>>),
+//    Nil,
+//}
+//
+//impl List {
+//    fn tail(&self) -> Option<&RefCell<Rc<List>>> {
+//        match self {
+//            Cons(_, item) => Some(item),
+//            Nil => None,
+//        }
+//    }
+//}
+
+
+//// TODO 用了 Weak
+//use std::rc::{Rc, Weak};
+//use std::cell::RefCell;
+//
+//#[derive(Debug)]
+//struct Node {
+//    value: i32,
+//    parent: RefCell<Weak<Node>>,
+//    children: RefCell<Vec<Rc<Node>>>,
+//}
+//
+//fn main() {
+//    let leaf = Rc::new(Node {
+//        value: 3,
+//        parent: RefCell::new(Weak::new()),
+//        children: RefCell::new(vec![]),
+//    });
+//
+//    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+//
+//    let branch = Rc::new(Node {
+//        value: 5,
+//        parent: RefCell::new(Weak::new()),
+//        children: RefCell::new(vec![Rc::clone(&leaf)]),
+//    });
+//
+//    *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+//
+//    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+//}
+
+
+//// TODO 又
+//use std::rc::{Rc, Weak};
+//use std::cell::RefCell;
+//
+//#[derive(Debug)]
+//struct Node {
+//    value: i32,
+//    parent: RefCell<Weak<Node>>,
+//    children: RefCell<Vec<Rc<Node>>>,
+//}
+//
+//fn main() {
+//    let leaf = Rc::new(Node {
+//        value: 3,
+//        parent: RefCell::new(Weak::new()),
+//        children: RefCell::new(vec![]),
+//    });
+//
+//    println!(
+//        "leaf strong = {}, weak = {}",
+//        Rc::strong_count(&leaf),
+//        Rc::weak_count(&leaf),
+//    );
+//
+//    {
+//        let branch = Rc::new(Node {
+//            value: 5,
+//            parent: RefCell::new(Weak::new()),
+//            children: RefCell::new(vec![Rc::clone(&leaf)]),
+//        });
+//
+//        *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+//
+//        println!(
+//            "branch strong = {}, weak = {}",
+//            Rc::strong_count(&branch),
+//            Rc::weak_count(&branch),
+//        );
+//
+//        println!(
+//            "leaf strong = {}, weak = {}",
+//            Rc::strong_count(&leaf),
+//            Rc::weak_count(&leaf),
+//        );
+//    }
+//
+//    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+//    println!(
+//        "leaf strong = {}, weak = {}",
+//        Rc::strong_count(&leaf),
+//        Rc::weak_count(&leaf),
+//    );
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+// 并发 (无畏并发)
+
+use std::thread;
+use std::time::Duration;
+
+fn main() {
+    let handle = thread::spawn(|| {
+        for i in 1..10 {
+            println!("hi number {} from the spawned thread!", i);
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
+
+    for i in 1..5 {
+        println!("hi number {} from the main thread!", i);
+        thread::sleep(Duration::from_millis(1));
+    }
+
+    // TODO 使用 join 等待所有线程结束
+    // 类似与 go 中的  wg.Wait()
+    handle.join().unwrap();
+}*/
+
+
+
+/*
+use std::thread;
+
+fn main() {
+    let v = vec![1, 2, 3];
+
+//    let handle = thread::spawn( || { // 这样纸写的话  v 的所有权是没有被移动到闭包中来的。 TODO Rust 不知道这个新建线程会执行多久，所以无法知晓 v 的引用是否一直有效
+    let handle = thread::spawn(move || { // 用 move 就可以表示将 v 移到 闭包中来
+        println!("Here's a vector: {:?}", v);
+    });
+
+    // 如果不用 move的话，因为可能，我这里就把 v 给 drop 掉了
+    // drop(v);
+
+    handle.join().unwrap();
+}*/
+
+
+/*
+// 在线程之间传递数据
+use std::thread;
+use std::sync::mpsc;
+
+fn main() {
+    // 声明一个 chan
+    let (tx, rx) = mpsc::channel();
+
+
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
+}*/
+
+
+/*
+use std::thread;
+use std::sync::mpsc;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let val = String::from("hi");
+        tx.send(val).unwrap();
+        println!("val is {}", val); // 这一行 会报错，因为val 已经被发送到 其他线程了(所有权已经被转移了)
+    });
+
+    let received = rx.recv().unwrap();
+    println!("Got: {}", received);
+}*/
+
+
+/*
+// 使用 for 来接受 chan中的信息， TODO 类似 go 中的 for-rage 操作 chan
+use std::thread;
+use std::sync::mpsc;
+use std::time::Duration;
+
+fn main() {
+    let (tx, rx) = mpsc::channel();
+
+    thread::spawn(move || {
+        let vals = vec![
+            String::from("hi"),
+            String::from("from"),
+            String::from("the"),
+            String::from("thread"),
+        ];
+
+        for val in vals {
+            tx.send(val).unwrap();
+            thread::sleep(Duration::from_secs(1));
+        }
+    });
+
+    for received in rx {
+        println!("Got: {}", received);
+    }
+}*/
+
+//
+//// TODO 通过克隆发送者来创建多个生产者
+//use std::thread;
+//use std::sync::mpsc;
+//use std::time::Duration;
+//
+//fn main() {
+//
+//    let (tx, rx) = mpsc::channel();
+//
+//    let tx1 = mpsc::Sender::clone(&tx); // TODO clone 了chan的发送端
+//
+//
+//    thread::spawn(move || {
+//        let vals = vec![
+//            String::from("hi"),
+//            String::from("from"),
+//            String::from("the"),
+//            String::from("thread"),
+//        ];
+//
+//        for val in vals {
+//            tx1.send(val).unwrap();
+//            thread::sleep(Duration::from_secs(1));
+//        }
+//    });
+//
+//    thread::spawn(move || {
+//        let vals = vec![
+//            String::from("more"),
+//            String::from("messages"),
+//            String::from("for"),
+//            String::from("you"),
+//        ];
+//
+//        for val in vals {
+//            tx.send(val).unwrap();
+//            thread::sleep(Duration::from_secs(1));
+//        }
+//    });
+//
+////    for received in rx {
+////        println!("Got: {}", received);
+////    }
+//
+//
+//   /* // clone 多个接受者 TODO 这样子是不行的
+//    let rx1 = mpsc::Receiver::clone(&rx);
+//
+//    thread::spawn(move ||{
+//        for received in rx {
+//            println!("Rev1: {}", received);
+//            thread::sleep(Duration::from_secs(1));
+//        }
+//    });
+//
+//    thread::spawn(move ||{
+//        for received in rx1 {
+//            println!("Rev2: {}", received);
+//            thread::sleep(Duration::from_secs(1));
+//        }
+//    });*/
+//
+//
+//}
+
+
+
+/*
+// 使用 锁
+use std::sync::Mutex;
+
+fn main() {
+    let m = Mutex::new(5);
+
+    {
+        *//*
+        Mutex<T> 是一个智能指针。更准确的说，lock 调用 返回 一个叫做 MutexGuard 的智能指针。
+        这个智能指针实现了 Deref 来指向其内部数据；其也提供了一个 Drop 实现当 MutexGuard 离开作用域时自动释放锁
+        *//*
+        let mut num = m.lock().expect("error~");
+        *num = 6;
+    }
+
+    println!("m = {:?}", m);
+}
+
+*/
+
+/*
+use std::sync::Mutex;
+use std::thread;
+
+fn main() {
+    let counter = Mutex::new(0);
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+
+        // TODO 注意这里，表示第一个 thread 就已经拿到了 counter 的所有权
+        // TODO 所以，后续的 thread 再拿就会报错了
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+}
+
+
+*/
+
+
+/*
+use std::sync::Mutex;
+use std::thread;
+
+fn main() {
+    let counter = Mutex::new(0);
+    let mut handles = vec![];
+
+    // TODO 这个也是一样，counter 在这个 thread 中被移进 闭包，
+    // TODO 则Q其他 thread 就不能使用 counter 了
+    let handle = thread::spawn(move || {
+        let mut num = counter.lock().unwrap();
+
+        *num += 1;
+    });
+    handles.push(handle);
+
+    let handle2 = thread::spawn(move || {
+        let mut num2 = counter.lock().unwrap();
+
+        *num2 += 1;
+    });
+    handles.push(handle2);
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+}*/
+
+
+
+/*
+// 使用 技术引用 来包装 mutex 从而做到了一在 多个 thread 中获取 mutex
+// TODO 注意： 不幸的是，Rc<T> 并不能安全的在线程间共享
+// TODO 在多线程间使用  计数引用的话，需要用 Arc<T> 一个类似 Rc<T> 并可以安全的用于并发环境的类型
+// TODO 因为 Rc 不是线程安全的， 可能存在 多个线程 同时修改 Rc 的引用计数，导致 计数不准
+
+
+use std::rc::Rc;
+use std::sync::Mutex;
+use std::thread;
+
+fn main() {
+    let counter = Rc::new(Mutex::new(0));
+    let mut handles = vec![];
+
+    for _ in 0..10 {
+        let counter = Rc::clone(&counter);
+        let handle = thread::spawn(move || {
+            let mut num = counter.lock().unwrap();
+
+            *num += 1;
+        });
+        handles.push(handle);
+    }
+
+    for handle in handles {
+        handle.join().unwrap();
+    }
+
+    println!("Result: {}", *counter.lock().unwrap());
+}*/
+
+//
+//use std::sync::{Mutex, Arc};
+//use std::thread;
+//
+//fn main() {
+//    let counter = Arc::new(Mutex::new(0));
+//    let mut handles = vec![];
+//
+//    for i in 0..10 {
+//        let counter = Arc::clone(&counter);
+//        let handle = thread::spawn(move || {
+//            let mut num = counter.lock().unwrap();
+//
+//
+//            println!("这是一个线程:{}", i)
+////            *num += 1;
+//        });
+//        handles.push(handle);
+//    }
+//
+//    for handle in handles {
+//        handle.join().unwrap();
+//    }
+//
+//    println!("Result: {}", *counter.lock().unwrap());
+//}
+
+
+//// 面向对象编程
+//
+//pub struct AveragedCollection {
+//    list: Vec<i32>,
+//    average: f64,
+//}
+//
+//impl AveragedCollection {
+//
+//    pub fn add(&mut self, value: i32) {
+//        self.list.push(value);
+//        self.update_average();
+//    }
+//
+//    pub fn remove(&mut self) -> Option<i32> {
+//        let result = self.list.pop();
+//        match result {
+//            Some(value) => {
+//                self.update_average();
+//                Some(value)
+//            }
+//            None => None,
+//        }
+//    }
+//
+//    pub fn average(&self) -> f64 {
+//        self.average
+//    }
+//
+//    fn update_average(&mut self) {
+//        let total: i32 = self.list.iter().sum();
+//        self.average = total as f64 / self.list.len() as f64;
+//    }
+//}
+//
+//
+//
+//pub trait Draw {
+//    fn draw(&self);
+//}
+//
+//
+//pub struct Screen {
+//    pub components: Vec<Box<dyn Draw>>,
+//}
+//
+//
+//impl Screen {
+//
+//    pub fn run(&self) {
+//        for component in self.components.iter() {
+//            component.draw();
+//        }
+//    }
+//}
+//
+////impl<T> Screen<T>
+////    where T: Draw {
+////    pub fn run(&self) {
+////        for component in self.components.iter() {
+////            component.draw();
+////        }
+////    }
+////}
+//
+//
+//
+//
+//pub struct Button {
+//    pub width: u32,
+//    pub height: u32,
+//    pub label: String,
+//}
+//
+//impl Draw for Button {
+//    fn draw(&self) {
+//        // 实际绘制按钮的代码
+//    }
+//}
+//
+//
+//struct SelectBox {
+//    width: u32,
+//    height: u32,
+//    options: Vec<String>,
+//}
+//
+//impl Draw for SelectBox {
+//    fn draw(&self) {
+//        // code to actually draw a select box
+//    }
+//}
+//
+////
+////fn main() {
+////    let screen = Screen {
+////        components: vec![
+////            Box::new(SelectBox {
+////                width: 75,
+////                height: 10,
+////                options: vec![
+////                    String::from("Yes"),
+////                    String::from("Maybe"),
+////                    String::from("No")
+////                ],
+////            }),
+////            Box::new(Button {
+////                width: 50,
+////                height: 10,
+////                label: String::from("OK"),
+////            }),
+////        ],
+////    };
+////
+////    screen.run();
+////}
+//
+//
+//fn main() {
+//    let screen = Screen {
+//        components: vec![
+//            Box::new(String::from("Hi")),
+//        ],
+//    };
+//
+//    screen.run();
+//}
+
+
+//fn main() {
+//    let v = vec!['a', 'b', 'c'];
+//
+//    // for in
+//    for (index, value) in v.iter().enumerate() {
+//        println!("{} is at index {}", value, index);
+//    }
+//}
+
+
+//fn main() {
+//
+//    // TODO 字面量匹配
+//    let x = 1;
+//
+//    match x {
+//        1 => println!("one"), // 匹配
+//        2 => println!("two"),
+//        3 => println!("three"),
+//        _ => println!("anything"),
+//    }
+//
+//
+//    // TODO 命名匹配
+//    let x = Some(5);
+//    let y = 10;
+//
+//    match x {
+//        Some(50) => println!("Got 50"),
+//        Some(y) => println!("Matched, y = {:?}", y),  // 匹配
+//        _ => println!("Default case, x = {:?}", x),
+//    }
+//
+//    println!("at the end: x = {:?}, y = {:?}", x, y);
+//
+//
+//    // TODO 多模式匹配
+//    let x = 1;
+//
+//    match x {
+//        1 | 2 => println!("one or two"),  // 匹配
+//        3 => println!("three"),
+//        _ => println!("anything"),
+//    }
+//
+//
+//    // TODO  范围匹配
+//    let x = 5;
+//
+//    match x {
+//        1...5 => println!("one through five"),   // 匹配
+//        _ => println!("something else"),
+//    }
+//
+//    let x = 'c';
+//
+//    match x {
+//        'a'...'j' => println!("early ASCII letter"),
+//        'k'...'z' => println!("late ASCII letter"),
+//        _ => println!("something else"),
+//    }
+//
+//
+//    // 解构匹配
+//    struct Point {
+//        x: i32,
+//        y: i32,
+//    }
+//
+//    let p = Point { x: 0, y: 7 };
+//
+//    match p {
+//        Point { x, y: 0 } => println!("On the x axis at {}", x),
+//        Point { x: 0, y } => println!("On the y axis at {}", y), // 匹配
+//        Point { x, y } => println!("On neither axis: ({}, {})", x, y),
+//
+//    }
+//
+//
+//
+//    // 枚举匹配
+//    enum Message {
+//        Quit,
+//        Move { x: i32, y: i32 },
+//        Write(String),
+//        ChangeColor(i32, i32, i32),
+//    }
+//
+//
+//    let msg = Message::ChangeColor(0, 160, 255);
+//
+//    match msg {
+//        Message::Quit => {
+//            println!("The Quit variant has no data to destructure.")
+//        },
+//        Message::Move { x, y } => {
+//            println!(
+//                "Move in the x direction {} and in the y direction {}",
+//                x,
+//                y
+//            );
+//        }
+//        Message::Write(text) => println!("Text message: {}", text),
+//        Message::ChangeColor(r, g, b) => {
+//            println!(
+//                "Change the color to red {}, green {}, and blue {}",
+//                r,
+//                g,
+//                b
+//            )
+//        }
+//    }
+//
+//
+//    let points = vec![
+//        Point { x: 0, y: 0 },
+//        Point { x: 1, y: 5 },
+//        Point { x: 10, y: -3 },
+//    ];
+//
+//    let sum_of_squares: i32 = points
+//        .iter()
+//        // 如果没有在 &Point { x, y } 中包含 & 则会得到一个类型不匹配错误，因为这样 iter 会遍历 vector 中项的引用而不是值本身
+//        .map(|&Point { x, y }| x * x + y * y)
+//        .sum();
+//
+//
+//
+//
+//
+//    let ((feet, inches), Point {x, y}) = ((3, 10), Point { x: 3, y: -10 });
+//
+//
+//    // 使用 _ 部分匹配
+//    let mut setting_value = Some(5);
+//    let new_setting_value = Some(10);
+//
+//    match (setting_value, new_setting_value) {
+//        (Some(_), Some(_)) => {
+//            println!("Can't overwrite an existing customized value");
+//        }
+//        _ => {
+//            setting_value = new_setting_value;
+//        }
+//    }
+//
+//    println!("setting is {:?}", setting_value);
+//
+//
+//    let numbers = (2, 4, 8, 16, 32);
+//
+//    match numbers {
+//        (first, _, third, _, fifth) => {
+//            println!("Some numbers: {}, {}, {}", first, third, fifth)
+//        },
+//    }
+//
+//
+//
+//
+//    // 在名字前以一个下划线开头来忽略未使用的变量
+//    let _x = 5;
+//    let y = 10;
+//
+//    // 当然你也可以是用 这变量
+//    let s = Some(String::from("Hello!"));
+////
+////    if let Some(_s) = s {
+////        println!("found a string");
+////    }
+//
+//    // 而这样下面的 println 就不会报错
+//    if let Some(_) = s {
+//        println!("found a string");
+//    }
+//
+//    println!("{:?}", s);
+//
+//
+//    // 使用  .. 图略剩下的值
+//    struct Point2 {
+//        x: i32,
+//        y: i32,
+//        z: i32,
+//    }
+//
+//    let origin = Point2 { x: 0, y: 0, z: 0 };
+//
+//    match origin {
+//        Point2 { x, .. } => println!("x is {}", x),
+//    }
+//
+//    // 或者
+//    let numbers = (2, 4, 8, 16, 32);
+//
+//    match numbers {
+//        (first, .., last) => {
+//            println!("Some numbers: {}, {}", first, last);
+//        },
+//    }
+//
+//
+//    // TODO 模式匹配 守卫
+//    let num = Some(4);
+//
+//    match num {
+//        Some(x) if x < 5 => println!("less than five: {}", x), // 匹配
+//        Some(x) => println!("{}", x),
+//        None => (),
+//    }
+//
+//
+//
+//    let x = 4;
+//    let y = false;
+//
+//    match x {
+//        4 | 5 | 6 if y => println!("yes"),
+//        _ => println!("no"), // 匹配
+//    }
+//
+//
+//
+//
+//    // TODO     @ 绑定
+//
+//    // 允许我们在创建一个存放值的变量的同时测试其值是否匹配模式
+//    enum Message2 {
+//        Hello { id: i32 },
+//    }
+//
+//    let msg = Message2::Hello { id: 5 };
+//
+//    match msg {
+//        Message2::Hello { id: id_variable @ 3...7 } => {  // 匹配
+//            println!("Found an id in range: {}", id_variable)
+//        },
+//        Message2::Hello { id: 10...12 } => {
+//            println!("Found an id in another range")
+//        },
+//        Message2::Hello { id } => {
+//            println!("Found some other id: {}", id)
+//        },
+//    }
+//
+//}
+
+
+//// todo 解构并分解值
+//struct Point {
+//    x: i32,
+//    y: i32,
+//}
+//
+//fn main() {
+//    let p = Point { x: 0, y: 7 };
+//
+//    // TODO 注意看这里哦
+//    let Point { x: a, y: b } = p;
+//    assert_eq!(0, a);
+//    assert_eq!(7, b);
+//}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//// 使用外部函数 （如：调用 C）
+//
+//extern "C" {
+//    fn abs(input: i32) -> i32;
+//}
+//
+//fn main() {
+//    unsafe {
+//        println!("Absolute value of -3 according to C: {}", abs(-3));
+//    }
+//}
+//
+//
+//// 返回闭包
+//fn returns_closure() -> Box<dyn Fn(i32) -> i32> {
+//    Box::new(|x| x + 1)
+//}
+//
+//// 无返回类型
+//fn bar() -> ! {
+//    print!("forever ");
+//
+//    loop { // 最后一个有着 ! 类型的表达式是 loop
+//        print!("and ever ");
+//    }
+//
+//
+//
+//
+//    let guess = "3";
+//    loop { // 最后一个有着 ! 类型的表达式是 loop
+//        let guess: u32 = match guess.trim().parse() {
+//            Ok(num) => num,
+//            Err(_) => continue,
+//        };
+//        break; // 不能结束 loop 否则报错
+//    }
+//}
+
+
+/*
+fn main() {
+    let x = 1.0_f32/0.0;   // inf: 非0数/0 == inf
+
+    let y = 0.0f32/0.0;    // NaN: 0/0 == NaN
+
+    println!["{}, {}", x, y];
+
+
+    let  arr = [1, 2, 4, 8];
+
+    // TODO  将 enum 的 variant 当做函数使用
+    let v: Vec<Option<&i32>> = arr.iter().map(Some).collect();
+
+    println!("{:#?}", v);
+
+
+   *//* let v = loop{}; // 因为这个 loop 永远执行不完，所以 v的类型为"!" 即： 发散类型
+    println!("{}", v);  // 则这句打印永远不会被执行*//*
+
+
+    let me = Chef;
+
+    // TODO 完整函数调用
+    <Cook>::start(&me);     // 或者 <Chef as Cook>::start(&me);
+    <Wash>::start(&me);     // 或者 <Chef as Wash>::start(&me);
+    <Chef as Cook>::start(&me);
+    <Chef as Wash>::start(&me);
+
+
+
+
+    let a : isize = 120;
+    println!("{}", a)
+
+
+}
+
+
+trait Cook {
+    fn start(&self);
+}
+
+trait Wash {
+    fn start(&self);
+}
+
+
+
+struct Chef;
+
+impl Cook for Chef {
+    fn start (&self) {
+        println!("Cook::start")
+    }
+}
+
+impl Wash for Chef {
+    fn start (&self) {
+        println!("Wash::start")
+    }
+}
+*/
+
+
+
+//fn main() {
+//    let arr : [i32; 5] = [1, 2, 3, 4, 5];
+//    let addr : &[i32; 5] = &arr;
+//    println!("addr of arr: {:p}", addr);
+//    raw_slice(addr as &[i32])
+//
+//}
+//
+//
+//fn raw_slice(arr: &[i32]) {
+//    // 打印胖指针的内存
+//    unsafe {
+//        let (val1, val2) : (usize, usize) = std::mem::transmute(arr);
+//        println!("Value in raw pointer:");
+//        println!("addr: {:x}", val1);
+//        println!("size: {:x}", val2);
+//    }
+//}
+
+
+//fn main() {
+////    let r = 1..10; // Range<i32> 类型， 而不是 元组哦， 没有索引
+////    for v in r {
+////        println!("{:?}", v)
+////    }
+//
+//    use std::iter::Iterator;
+//    let r = (1i32..13).rev().map(|i| i*10);
+//
+//    for v in r {
+//        println!("{:?}", v)
+//    }
+//
+//    let r = 1..; // (1, +∞)
+//    let r = .. 13; // (-∞, 13)
+//    let r = ..; // (-∞, +∞)
+//
+//
+//
+//
+//    // 边界检查
+//
+//    let v = [10i32, 20, 30, 40, 50];
+//
+//    let index : usize = std::env::args().nth(1).map(|x|x.parse().unwrap_or(0)).unwrap_or(0);
+//    println!("{:?}", v[index]);
+//
+//}
+
+
+//fn main() {
+//    // 变量绑定  @
+//    let x = 1;
+//
+//    match x {
+//        // 表示e来匹配 [1,...,5] 中的任意元素
+//        e@1..=5 => println!("{}", e),
+//        _ => println!("anythings")
+//    }
+//
+//
+//    // 如果@和|一起用，需要在每个变量上都加上 @
+//
+//    let x = 5;
+//    match x {
+//        e @ 1..=5 | e@8..=10 => println!("{}", e),
+//        _ => println!("anythings")
+//    }
+//
+//
+//
+//    // 利用编译错误查看 类型
+//    fn type_id (_ : ()) {}
+//
+//    let ref x = 5_i32;
+//
+////    type_id(x); // 这里就会给我们打印出来 `x`的真实类型： &i32
+//
+//
+//    let ref x = 5_i32;
+//    print_type_name(&x) // 第二种查看类型的 方法
+//}
+//
+//
+//fn print_type_name<T> (_args:  &T) {
+//    unsafe {
+//        println!("{}", std::intrinsics::type_name::<T>())
+//    }
+//}
+
+
+//fn main() {
+//    let mut x : Option<String> = Some("hello".into());
+//
+//    match x {
+//        Some(i) => i.push_str("world"), // cannot borrow as mutable
+//        None => println!("None"),
+//    }
+//
+//    println!("{:?}", x);
+//}
+
+
+//fn main() {
+//    let x = T{
+//        item1: 'A',
+//        item2: false,
+//    };
+//
+//    test(x);
+//}
+//
+//struct T {
+//    item1: char,
+//    item2: bool,
+//}
+//
+//
+//// TODO 当一个函数接受一个结构体参数的时候， 可以直接在参数中做 模式解构
+//fn test (T{item1: args1, item2: args2} : T){
+//    println!("{}, {}", args1, args2)
+//}
+
+
+//fn main() {
+//    let x = 1_i32;
+//
+//    let mut y : u32 = 1;
+//
+//    let raw = &mut y as *mut u32 as *mut i32 as *mut i64;
+//
+//    unsafe {
+//        *raw = -1;
+//    }
+//
+//    println!("{:X}, {:X}", x, y)
+//}
+
+
+
+fn raw_to_ref<'a>(p : *const i32) -> & 'a i32 {
+    unsafe{
+        &*p
+    }
+}
+
+fn main() {
+    let p : &i32 = raw_to_ref(std::ptr::null::<i32>());
+    println!("{}", p) // interrupted by signal 11: SIGSEGV
+}
+
+
+
